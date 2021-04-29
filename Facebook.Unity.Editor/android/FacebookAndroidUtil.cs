@@ -76,7 +76,7 @@ namespace Facebook.Unity.Editor
                         return null;
                     }
 
-                    debugKeyHash = GetKeyHash("androiddebugkey", DebugKeyStorePath, "android");
+                    debugKeyHash = GetKeyHash();
                 }
 
                 return debugKeyHash;
@@ -137,8 +137,16 @@ namespace Facebook.Unity.Editor
             return sdkPath;
         }
 
-        private static string GetKeyHash(string alias, string keyStore, string password)
+        private static string GetKeyHash()
         {
+            var useDebugKeystore = string.IsNullOrEmpty(PlayerSettings.Android.keystoreName) ||
+                string.IsNullOrEmpty(PlayerSettings.Android.keyaliasName);
+
+            var keystorePassword = useDebugKeystore ? "android" : PlayerSettings.Android.keystorePass;
+            var aliasPassword = useDebugKeystore ? "android" : PlayerSettings.Android.keyaliasPass;
+            var alias = useDebugKeystore ? "androiddebugkey" : PlayerSettings.Android.keyaliasName;
+            var keyStore = useDebugKeystore ? DebugKeyStorePath : PlayerSettings.Android.keystoreName;
+
             var proc = new Process();
             var arguments = @"""keytool -storepass {0} -keypass {1} -exportcert -alias {2} -keystore {3} | openssl sha1 -binary | openssl base64""";
             if (Application.platform == RuntimePlatform.WindowsEditor)
@@ -152,7 +160,7 @@ namespace Facebook.Unity.Editor
                 arguments = @"-c " + arguments;
             }
 
-            proc.StartInfo.Arguments = string.Format(arguments, password, password, alias, keyStore);
+            proc.StartInfo.Arguments = string.Format(arguments, keystorePassword, aliasPassword, alias, keyStore);
             proc.StartInfo.UseShellExecute = false;
             proc.StartInfo.CreateNoWindow = true;
             proc.StartInfo.RedirectStandardOutput = true;

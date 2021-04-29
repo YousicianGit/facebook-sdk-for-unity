@@ -77,7 +77,7 @@ namespace Facebook.Unity.Editor
 
                 if (!FacebookAndroidUtil.SetupProperly)
                 {
-                    Debug.LogError("Your Android setup is not correct. " + FacebookAndroidUtil.SetupError);
+                    Debug.LogError("Your Android setup is not correct. " + FacebookAndroidUtil.GetSetupErrorMessage());
                 }
 
                 if (!ManifestMod.CheckManifest())

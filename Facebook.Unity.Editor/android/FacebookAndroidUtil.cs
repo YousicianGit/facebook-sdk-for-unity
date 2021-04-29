@@ -91,6 +91,27 @@ namespace Facebook.Unity.Editor
             }
         }
 
+        public static void GetSetupErrorMessage()
+        {
+            switch (FacebookAndroidUtil.SetupError)
+            {
+                case FacebookAndroidUtil.ErrorNoSDK:
+                    return "You don't have the Android SDK setup!  Go to " + (Application.platform == RuntimePlatform.OSXEditor ? "Unity" : "Edit") + "->Preferences... and set your Android SDK Location under External Tools";
+                case FacebookAndroidUtil.ErrorNoKeystore:
+                    return "Your android debug keystore file is missing! You can create new one by creating and building empty Android project in Ecplise.";
+                case FacebookAndroidUtil.ErrorNoKeytool:
+                    return "Keytool not found. Make sure that Java is installed, and that Java tools are in your path.";
+                case FacebookAndroidUtil.ErrorNoOpenSSL:
+                    return "OpenSSL not found. Make sure that OpenSSL is installed, and that it is in your path.";
+                case FacebookAndroidUtil.ErrorKeytoolError:
+                    return "Unkown error while getting Debug Android Key Hash.";
+                case null:
+                    return null;
+                default:
+                    return "Your Android setup is not right. Check the documentation."
+            }
+        }
+
         private static string DebugKeyStorePath
         {
             get

@@ -91,7 +91,7 @@ namespace Facebook.Unity.Editor
             }
         }
 
-        public static void GetSetupErrorMessage()
+        public static string GetSetupErrorMessage()
         {
             switch (FacebookAndroidUtil.SetupError)
             {
@@ -104,11 +104,11 @@ namespace Facebook.Unity.Editor
                 case FacebookAndroidUtil.ErrorNoOpenSSL:
                     return "OpenSSL not found. Make sure that OpenSSL is installed, and that it is in your path.";
                 case FacebookAndroidUtil.ErrorKeytoolError:
-                    return "Unkown error while getting Debug Android Key Hash.";
+                    return "Unknown error while getting Debug Android Key Hash.";
                 case null:
                     return null;
                 default:
-                    return "Your Android setup is not right. Check the documentation."
+                    return "Your Android setup is not right. Check the documentation.";
             }
         }
 

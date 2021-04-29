@@ -53,7 +53,9 @@ namespace Facebook.Unity.Editor
             string projPath = Path.Combine(path, Path.Combine("Unity-iPhone.xcodeproj", "project.pbxproj"));
             PBXProject proj = new PBXProject();
             proj.ReadFromString(File.ReadAllText(projPath));
-            string targetGUID = proj.TargetGuidByName("UnityFramework");
+
+            var targetName = GetUnityVersionNumber() >= 201930 ? "UnityFramework" : "Unity-iPhone";
+            string targetGUID = proj.TargetGuidByName(targetName);
             proj.AddBuildProperty(targetGUID, "GCC_PREPROCESSOR_DEFINITIONS", " $(inherited) FBSDKCOCOAPODS=1");
             proj.AddBuildProperty(targetGUID, "OTHER_LDFLAGS", "-ObjC");
             proj.AddBuildProperty(targetGUID, "SWIFT_VERSION", "5.0");

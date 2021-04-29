@@ -788,4 +788,11 @@ extern "C" {
                                requestId:requestId];
     }];
   }
+
+  // YOUSICIAN CUSTOM CODE:
+  // https://github.com/facebook/facebook-sdk-for-unity/issues/543
+  void IOSFBEnableProfileUpdatesOnAccessTokenChange(bool enable)
+  {
+    [[FBUnityInterface sharedInstance] IOSFBEnableProfileUpdatesOnAccessTokenChange:enable];
+  }
 }
